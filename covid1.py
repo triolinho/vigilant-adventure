@@ -16,3 +16,8 @@ import random
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import accuracy_score,recall_score,precision_score,f1_score
+
+covid_data = pd.read_csv('COVID_data.csv', index_col=0)
+covid_data.columns
+covid_data2 = pd.read_csv('COVID_Data_Basic.csv', index_col=0)
+covid_data2.groupby('Country').sum()
