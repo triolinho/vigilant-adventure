@@ -96,8 +96,19 @@ covid_df = pd.DataFrame(index=country_index, columns=date_columns)
 
 for i in range(len(date_columns)):
     for j in range(len(country_index)):
-        condition1 = covid_data['Country'] == j
-        condition2 = covid_data['Date'] == i
-        covid_df.iloc[j,i] = (covid_data['Death'][(condition1) & (condition2)]).values
+        condition1 = covid_data['Country'] == country_index[j]
+        condition2 = covid_data['Date'] == date_columns[i]
+        cov_array = (covid_data['Death'][(condition1) & (condition2)]).values
+        if cov_array.size == 0:
+            covid_df.iloc[j,i] = 0
+        else:
+            covid_df.iloc[j,i] = (covid_data['Death'][(condition1) & (condition2)]).values[0]
+
+        #covid_df.iloc[j,i] = (covid_data['Death'][(condition1) & (condition2)]).values
+
 ### this did not work!! ###
-covid_df['2020-03-22'].value_counts()
+covid_df.to_csv(r'/Users/andrewtriola/Documents/flatiron/covid_project/vigilant-adventure/covid_df.csv')
+covid_df.head()
+covid_df.index
+sns.lineplot(x=date_columns, y=covid_df.index, data=covid_df)
+### need to figure out how to plot this ###
