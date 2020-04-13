@@ -1,6 +1,7 @@
 import numpy as np
 import datetime
 from datetime import datetime
+from datetime import date
 import pandas as pd
 import config
 from sklearn.model_selection import train_test_split
@@ -119,3 +120,14 @@ covid_df.head()
 covid_df.index
 sns.lineplot(x=covid_a['Date'], y=covid_a['Death'], hue=covid_a['Country'])
 ### need to figure out how to plot this ###
+covid_a.head()
+days_diff = np.datetime64('2020-01-02') - np.datetime64('2019-12-31')
+days_diff.astype(int)
+
+covid_a['Date'].iloc[2]
+covid_a['days-diff'] = [(np.datetime64(x) - np.datetime64('2019-12-31')).astype(int) for x in covid_a['Date']]
+covid_a.tail(20)
+#(np.datetime64('2020-01-10') - np.datetime64('2019-12-31')).astype(int)
+covid_a.head()
+covid_corr = covid_a.corr()
+covid_corr
