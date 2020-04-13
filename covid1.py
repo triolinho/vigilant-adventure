@@ -28,11 +28,15 @@ covid_data.columns
 
 #condition1 = covid_data['Confirmed'] > 0
 covid_data_sum = covid_data.groupby('Country').sum()#[condition1].head()
-covid_data_sum[covid_data_sum['Death'] > 0]
+covid_two_hund = covid_data_sum[covid_data_sum['Death'] > 1000]
+covid_two_hund.index
 
-condition2 = covid_data_sum['Death'] > 0
-condition3 = covid_data_sum['Death'] = 0
-covid_deaths = covid_data_sum[condition2]
+countries_two_hund = covid_two_hund.index.tolist()
+countries_two_hund
+
+#condition2 = covid_data_sum['Death'] > 0
+#condition3 = covid_data_sum['Death'] = 0
+#covid_deaths = covid_data_sum[condition2]
 #covid_data_sum[condition3]
 covid_data['Death'].value_counts()
 
@@ -94,15 +98,18 @@ country_index = list(country_rows)
 country_index[0]
 covid_df = pd.DataFrame(index=country_index, columns=date_columns)
 
-for i in range(len(date_columns)):
-    for j in range(len(country_index)):
-        condition1 = covid_data['Country'] == country_index[j]
-        condition2 = covid_data['Date'] == date_columns[i]
-        cov_array = (covid_data['Death'][(condition1) & (condition2)]).values
-        if cov_array.size == 0:
-            covid_df.iloc[j,i] = 0
-        else:
-            covid_df.iloc[j,i] = (covid_data['Death'][(condition1) & (condition2)]).values[0]
+# for i in range(len(date_columns)):
+#     for j in range(len(country_index)):
+#         condition1 = covid_data['Country'] == country_index[j]
+#         condition2 = covid_data['Date'] == date_columns[i]
+#         cov_array = (covid_data['Death'][(condition1) & (condition2)]).values
+#         if cov_array.size == 0:
+#             covid_df.iloc[j,i] = 0
+#         else:
+#             covid_df.iloc[j,i] = (covid_data['Death'][(condition1) & (condition2)]).values[0]
+
+covid_a = covid_data[covid_data['Country'].isin(countries_two_hund)]
+covid_a.columns
 
         #covid_df.iloc[j,i] = (covid_data['Death'][(condition1) & (condition2)]).values
 
@@ -110,5 +117,5 @@ for i in range(len(date_columns)):
 covid_df.to_csv(r'/Users/andrewtriola/Documents/flatiron/covid_project/vigilant-adventure/covid_df.csv')
 covid_df.head()
 covid_df.index
-sns.lineplot(x=date_columns, y=covid_df.index, data=covid_df)
+sns.lineplot(x=covid_a['Date'], y=covid_a['Death'], hue=covid_a['Country'])
 ### need to figure out how to plot this ###
